@@ -37,8 +37,8 @@
 <script type="text/javascript">
 
     //const mqtt = require('mqtt');
-    const client = mqtt.connect('ws://mqtt2.llfcmy.com:8083/mqtt');
-    //const client = mqtt.connect('ws://47.109.200.103:8083/mqtt');
+    // const client = mqtt.connect('ws://mqtt2.llfcmy.com:8083/mqtt');
+    const client = mqtt.connect('ws://47.109.200.103:8083/mqtt');
 
     client.on('message', function (topic, message) {
         let msg=`从主题 ${topic} 接收到消息: ${message.toString()}`
