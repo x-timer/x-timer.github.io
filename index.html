@@ -1,13 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script async src="js/analytics.js"></script>
+    <script type="text/javascript" src="js/modernizr.custom.32033.js"></script>
+
+    <link rel="Shortcut Icon" href="img/fc_icon.ico">
+    <link rel="Bookmark" href="img/fc_icon.ico">
+
+    <!--[if lt IE 9]>
+
+    <script src="js/html5shiv.js"></script>
+
+    <script src="js/respond.min.js"></script>
+
+    <![endif]-->
+
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+    <title>木材助手下载</title>
+</head>
+
+
+<body id="container">
+
+
+<script type="text/javascript">
+
+    //const mqtt = require('mqtt');
+    const client = mqtt.connect('ws://mqtt2.llfcmy.com:8083/mqtt');
+    //const client = mqtt.connect('ws://47.109.200.103:8083/mqtt');
+
+    client.on('message', function (topic, message) {
+        let msg=`从主题 ${topic} 接收到消息: ${message.toString()}`
+        console.log(msg);
+
+
+        let container = document.getElementById('container');
+        container.innerHTML += '<p>'+msg+'</p>';
+    });
+
+
+    // 连接成功时的回调
+    client.on('connect', function () {
+        console.log('已连接到 MQTT Broker');
+
+
+    });
+
+
+    client.subscribe('timertopic/#', { qos: 0 }, function (err, granted) {
+        if (err) {
+            console.log('订阅失败:', err);
+        } else {
+            console.log('已成功订阅主题:', granted);
+        }
+    });
+
+
+</script>
+</body>
 </html>
